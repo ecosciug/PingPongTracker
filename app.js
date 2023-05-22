@@ -5,6 +5,11 @@ const p2Display = document.querySelector('#p2Display');
 const resetButton = document.querySelector('#reset');
 const winningScoreSelect = document.querySelector('#playTo');
 const phraseSpan = document.querySelector('#phrase');
+const servingDisplay = document.querySelector('#servingDisplay');
+const playersName = ["Player 1", "Player 2"]
+
+let numberOfServesMap = {11: 2, 21: 5}
+
 
 let p1Score = 0;
 let p2Score = 0;
@@ -12,10 +17,27 @@ let winningScore = 11;
 let isGameOver = false;
 let winningPhrase1 = 'Player One wins!';
 let winningPhrase2 = 'Player Two wins!';
+let numberOfServes = 2;
+let startingPlayer = 0;
+
+
+function whoServe(){
+    totalScore = p1Score + p2Score
+
+    if (totalScore >= ((winningScore * 2) - 2)){
+        return totalScore % 2
+    }
+
+    return parseInt(totalScore / numberOfServes) % 2
+}
 
 
 function checkEnd(){
     return Math.abs(p1Score - p2Score) > 1
+}
+
+function updateServingPerson(){
+    servingDisplay.textContent = playersName[whoServe()];
 }
 
 function addScoreToPlayer1() {
@@ -31,6 +53,7 @@ function addScoreToPlayer1() {
 		}
 		p1Display.textContent = p1Score;
 	}
+	updateServingPerson()
 }
 
 function addScoreToPlayer2() {
@@ -46,6 +69,7 @@ function addScoreToPlayer2() {
 		}
 		p2Display.textContent = p2Score;
 	}
+	updateServingPerson()
 }
 
 document.addEventListener('keydown', function(event) {
@@ -66,6 +90,7 @@ p2Button.addEventListener('click', addScoreToPlayer2);
 
 winningScoreSelect.addEventListener('change', function () {
 	winningScore = parseInt(this.value);
+	numberOfServes = numberOfServesMap[winningScore]
 	reset();
 });
 
@@ -80,6 +105,7 @@ function reset() {
 	p1Display.classList.remove('has-text-success', 'has-text-danger');
 	p2Display.classList.remove('has-text-success', 'has-text-danger');
 	p1Button.disabled = false;
+	servingDisplay.textContent = playersName[startingPlayer];
 	p2Button.disabled = false;
 	phraseSpan.disabled = true;
 	phraseSpan.textContent = '';
