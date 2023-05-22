@@ -9,24 +9,22 @@
 </head>
 
 <body>
-<div class="container my-4">
+<div class="container is-max-desktop">
     <div class="colums">
-        <div class="column is-half is-offset-one-quarter">
+        <div class="column">
             <div class="card">
                 <div class="card-image">
                     <span id="servingDisplay">Player 1</span>
-                    <!--                    <figure class="image is-3by2">-->
-<!--                        <img src="img/ping_pong.png" alt="ping pong racket" />-->
-<!--                    </figure>-->
                 </div>
                 <header class="card-header">
                     <p class="card-header-title is-centered is-size-4">Ping Pong Score Keeper</p>
                 </header>
                 <div class="card-content">
                     <div class="content">
-                        <h1 class="title is-1">
-                            <span id="p1Display">0</span> to <span id="p2Display">0</span><span id="phrase" class="has-text-success ml-5"></span>
-                        </h1>
+                        <div class="title is-1">
+                            <span id="p1Display">0</span>  <span id="p2Display">0</span> <span id="phrase" class="has-text-success ml-5"></span>
+
+                        </div>
                         <p class="subtitle is-size-6">Use the buttons below to keep score</p>
                         <label class="label is-large is-inline mr-3" for="playTo">Playing to:</label>
                         <div class="select is-rounded">
@@ -34,6 +32,26 @@
                                 <option selected value="11">11</option>
                                 <option value="21">21</option>
                             </select>
+                        </div>
+                        <label class="label is-large is-inline mr-3" for="startServing">Starting:</label>
+                        <div class="select is-rounded">
+                            <select name="" id="startServing">
+                                <option selected value=0>Player 1</option>
+                                <option value=1>Player 2</option>
+                            </select>
+                        </div>
+                        <label class="label is-large is-inline mr-3" for="enabledSound">Sound:</label>
+                        <div class="select is-rounded">
+                            <select name="" id="enabledSound">
+                                <option selected value=0>On</option>
+                                <option value=1>Off</option>
+                            </select>
+                        </div>
+                        <div class="">
+                            <label for="player1Name">Player 1 name:  </label><input type="text" id="player1Name" value="Player 1">
+                        </div>
+                        <div class="">
+                            <label for="player2Name">Player 2 name:  </label><input type="text" id="player2Name" value="Player 2">
                         </div>
                     </div>
                 </div>
