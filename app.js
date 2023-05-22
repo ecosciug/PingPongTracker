@@ -16,10 +16,11 @@ const controls = {
     enabledSoundSelect: document.querySelector("#enabledSound")
 }
 
-const winningPhrase = ' is a winner!'
-const servingPhrase = " is serving!"
+const winningPhrase = " is a winner"
+const servingPhrase = " is serving"
 const numberOfServesMap = { 11: 2, 21: 5 }
-const playersColours = ["#0d6efd", "#dc3545"]
+const playersColors = ["#0d6efd", "#dc3545"] // Blue, Red
+const playerColorName = ["Blue", "Red"]
 
 const state = {
     playersScore: [0, 0],
@@ -133,13 +134,12 @@ function render() {
 
     servingPlayer = whoServe()
     view.statusDisplay.textContent = state.playersName[servingPlayer] + servingPhrase
-    view.statusDisplay.style.backgroundColor = playersColours[servingPlayer];
+    view.statusDisplay.style.backgroundColor = playersColors[servingPlayer];
 
     var winner = checkWinner()
     if (winner != -1) {
         view.statusDisplay.textContent = state.playersName[winner] + winningPhrase;
-        view.statusDisplay.style.backgroundColor = playersColours[winner]
-        return
+        view.statusDisplay.style.backgroundColor = playersColors[winner]
     }
 
     if (state.isSoundEnabled) {
@@ -176,34 +176,59 @@ function reset() {
 }
 
 function announceState() {
-    var serving = whoServe()
-    var other = serving == 0 ? 1 : 0
-
-    var announcerSource = announcers[serving]
-    var firstScore = numberToDigitSounds(state.playersScore[serving])
-    var secondScore = numberToDigitSounds(state.playersScore[other])
+    var winner = checkWinner()
 
     const soundPromises = [];
-    firstScore.forEach(sound =>
+    if (winner == -1) {
+        var serving = whoServe()
+        var other = serving == 0 ? 1 : 0
+    
+        var announcerSource = announcers[serving]
+        var firstScore = numberToDigitSounds(state.playersScore[serving])
+        var secondScore = numberToDigitSounds(state.playersScore[other])
+    
+        firstScore.forEach(sound =>
+            soundPromises.push(new Promise((resolve, reject) => {
+                let audioData = base64ToArrayBuffer(announcerSource[sound])
+                audioContext.decodeAudioData(audioData, buffer => {
+                    resolve(buffer);
+                }, error => {
+                    reject(error);
+                })
+            }))
+        )
+        secondScore.forEach(sound =>
+            soundPromises.push(new Promise((resolve, reject) => {
+                let audioData = base64ToArrayBuffer(announcerSource[sound])
+                audioContext.decodeAudioData(audioData, buffer => {
+                    resolve(buffer);
+                }, error => {
+                    reject(error);
+                })
+            }))
+        )
+
+        key = playerColorName[serving] + servingPhrase
         soundPromises.push(new Promise((resolve, reject) => {
-            let audioData = base64ToArrayBuffer(announcerSource[sound])
+            let audioData = base64ToArrayBuffer(announcerSource[key])
             audioContext.decodeAudioData(audioData, buffer => {
                 resolve(buffer);
             }, error => {
                 reject(error);
             })
         }))
-    )
-    secondScore.forEach(sound =>
+    } else {
+        var announcerSource = announcers[winner]
+        key = playerColorName[winner] + winningPhrase
         soundPromises.push(new Promise((resolve, reject) => {
-            let audioData = base64ToArrayBuffer(announcerSource[sound])
+            let audioData = base64ToArrayBuffer(announcerSource[key])
             audioContext.decodeAudioData(audioData, buffer => {
                 resolve(buffer);
             }, error => {
                 reject(error);
             })
         }))
-    )
+    }
 
     Promise.all(soundPromises)
         .then(buffers => {
