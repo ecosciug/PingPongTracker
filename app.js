@@ -25,7 +25,6 @@ let p1Score = 0;
 let p2Score = 0;
 let winningScore = 11;
 let isGameOver = false;
-let winningPhrase1 = 'Player One wins!';
 let numberOfServes = 2;
 let startingPlayer = 0;
 
@@ -132,6 +131,8 @@ function reset() {
 	p1Display.classList.remove('has-text-success', 'has-text-danger');
 	p2Display.classList.remove('has-text-success', 'has-text-danger');
 	p1Button.disabled = false;
+    p1Button.textContent = "+1 " + playersName[0];
+    p2Button.textContent = "+1 " + playersName[1];
 	servingDisplay.textContent = playersName[startingPlayer] + " is serving!";
 	servingDisplay.style.backgroundColor = playersColour[startingPlayer]
 	servingDisplay.style.color = "white"
