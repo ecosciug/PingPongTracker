@@ -11,9 +11,6 @@ const winningPhrase = ' wins!';
 const startServingSelect = document.querySelector("#startServing")
 const enabledSoundSelect = document.querySelector("#enabledSound")
 
-
-
-
 let numberOfServesMap = { 11: 2, 21: 5 }
 
 let playersName = ["Player 1", "Player 2"]
@@ -163,8 +160,6 @@ function reset() {
     servingDisplay.style.backgroundColor = playersColour[startingPlayer]
     servingDisplay.style.color = "white"
     p2Button.disabled = false;
-    phraseSpan.disabled = true;
-    phraseSpan.textContent = '';
 }
 
 function announceState() {
