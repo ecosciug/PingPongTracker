@@ -14,11 +14,13 @@ const enabledSoundSelect = document.querySelector("#enabledSound")
 
 
 
+
 let numberOfServesMap = {11: 2, 21: 5}
 
 let playersName = ["Player 1", "Player 2"]
 let playersScore = [0, 0]
 let playersDisplay = [p1Display, p2Display]
+let playersColour = ["#0d6efd", "#dc3545"]
 
 let p1Score = 0;
 let p2Score = 0;
@@ -45,7 +47,9 @@ function checkEnd(){
 }
 
 function updateServingPerson(){
-    servingDisplay.textContent = playersName[whoServe()];
+    server = whoServe()
+    servingDisplay.textContent = playersName[server];
+    servingDisplay.style.backgroundColor = playersColour[server];
 }
 
 function addScoreToPlayer(player) {
@@ -127,7 +131,11 @@ function reset() {
 	p2Display.classList.remove('has-text-success', 'has-text-danger');
 	p1Button.disabled = false;
 	servingDisplay.textContent = playersName[startingPlayer];
+	servingDisplay.style.backgroundColor = playersColour[startingPlayer]
+	servingDisplay.style.color = "white"
 	p2Button.disabled = false;
 	phraseSpan.disabled = true;
 	phraseSpan.textContent = '';
 }
+
+reset()
