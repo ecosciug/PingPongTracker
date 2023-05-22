@@ -54,6 +54,7 @@ function updateServingPerson(){
 
 function addScoreToPlayer(player) {
     if (isGameOver){
+        reset()
         return
     }
 
