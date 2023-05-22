@@ -4,7 +4,6 @@ const p1Display = document.querySelector('#p1Display');
 const p2Display = document.querySelector('#p2Display');
 const resetButton = document.querySelector('#reset');
 const winningScoreSelect = document.querySelector('#playTo');
-const phraseSpan = document.querySelector('#phrase');
 const servingDisplay = document.querySelector('#servingDisplay');
 const player1NameInput = document.querySelector("#player1Name")
 const player2NameInput = document.querySelector("#player2Name")
@@ -48,7 +47,7 @@ function checkEnd(){
 
 function updateServingPerson(){
     server = whoServe()
-    servingDisplay.textContent = playersName[server];
+    servingDisplay.textContent = playersName[server] + " is serving!";
     servingDisplay.style.backgroundColor = playersColour[server];
 }
 
@@ -66,7 +65,9 @@ function addScoreToPlayer(player) {
         isGameOver = true;
         p1Button.disabled = true;
         p2Button.disabled = true;
-        phraseSpan.textContent = playersName[player] + winningPhrase;
+        servingDisplay.textContent = playersName[player] + winningPhrase;
+        servingDisplay.style.backgroundColor = playersColour[startingPlayer]
+        servingDisplay.style.color = "white"
         playersDisplay[player].classList.add('has-text-success');
         playersDisplay[(player + 1) % 2].classList.add('has-text-danger');
         return
@@ -131,7 +132,7 @@ function reset() {
 	p1Display.classList.remove('has-text-success', 'has-text-danger');
 	p2Display.classList.remove('has-text-success', 'has-text-danger');
 	p1Button.disabled = false;
-	servingDisplay.textContent = playersName[startingPlayer];
+	servingDisplay.textContent = playersName[startingPlayer] + " is serving!";
 	servingDisplay.style.backgroundColor = playersColour[startingPlayer]
 	servingDisplay.style.color = "white"
 	p2Button.disabled = false;
