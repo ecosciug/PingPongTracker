@@ -14,7 +14,7 @@ const enabledSoundSelect = document.querySelector("#enabledSound")
 
 
 
-let numberOfServesMap = {11: 2, 21: 5}
+let numberOfServesMap = { 11: 2, 21: 5 }
 
 let playersName = ["Player 1", "Player 2"]
 let playersScore = [0, 0]
@@ -28,11 +28,39 @@ let isGameOver = false;
 let numberOfServes = 2;
 let startingPlayer = 0;
 
+let audioContext = null
 
-function whoServe(){
+window.onload = onLoad;
+
+let announcers = []
+
+function onLoad() {
+    reset()
+
+    fetch('https://raw.githubusercontent.com/ecosciug/PingPongTracker/master/sounds/female.json')
+        .then(response => response.json())
+        .then(data => {
+            announcers.push(data.res)
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    fetch('https://raw.githubusercontent.com/ecosciug/PingPongTracker/master/sounds/male.json')
+        .then(response => response.json())
+        .then(data => {
+            announcers.push(data.res)
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+    audioContext = new AudioContext();
+}
+
+function whoServe() {
     totalScore = playersScore[0] + playersScore[1]
 
-    if (totalScore >= ((winningScore * 2) - 2)){
+    if (totalScore >= ((winningScore * 2) - 2)) {
         return totalScore % 2
     }
 
@@ -40,18 +68,18 @@ function whoServe(){
 }
 
 
-function checkEnd(){
+function checkEnd() {
     return (Math.max(...playersScore) >= winningScore) && Math.abs(playersScore[0] - playersScore[1]) > 1
 }
 
-function updateServingPerson(){
+function updateServingPerson() {
     server = whoServe()
     servingDisplay.textContent = playersName[server] + " is serving!";
     servingDisplay.style.backgroundColor = playersColour[server];
 }
 
 function addScoreToPlayer(player) {
-    if (isGameOver){
+    if (isGameOver) {
         reset()
         return
     }
@@ -60,7 +88,7 @@ function addScoreToPlayer(player) {
     p1Display.textContent = playersScore[0];
     p2Display.textContent = playersScore[1];
 
-    if (checkEnd()){
+    if (checkEnd()) {
         isGameOver = true;
         p1Button.disabled = true;
         p2Button.disabled = true;
@@ -73,21 +101,30 @@ function addScoreToPlayer(player) {
     }
 
     updateServingPerson()
+    announceState()
 }
 
-document.addEventListener('keydown', function(event) {
-  // Get the key code
-  var keyCode = event.keyCode || event.which;
-  console.log(keyCode);
-  // Handle specific key presses
-  if (keyCode === 37) {
-    addScoreToPlayer(0)
-  } else if (keyCode === 39) {
-    addScoreToPlayer(1)
-  }
+document.addEventListener('keydown', function (event) {
+    // Get the key code
+    var keyCode = event.keyCode || event.which;
+    console.log(keyCode);
+    // Handle specific key presses
+    if (keyCode === 37) {
+        addScoreToPlayer(0)
+    } else if (keyCode === 39) {
+        addScoreToPlayer(1)
+    }
 });
 
-function updateName(){
+p1Button.addEventListener('click', function () {
+    addScoreToPlayer(0)
+});
+
+p2Button.addEventListener('click', function () {
+    addScoreToPlayer(1)
+});
+
+function updateName() {
     playersName = [player1NameInput.value, player2NameInput.value]
     servingDisplay.textContent = playersName[startingPlayer];
     p1Button.textContent = "+1 " + playersName[0];
@@ -96,49 +133,125 @@ function updateName(){
     startServingSelect.options[1].textContent = playersName[1]
 }
 
-
 startServingSelect.addEventListener('change', function () {
     startingPlayer = parseInt(this.value);
     reset();
 });
 
-
 player1NameInput.addEventListener('input', updateName);
 player2NameInput.addEventListener('input', updateName);
 
-
-p1Button.addEventListener('click', function () {
-    addScoreToPlayer(0)
-});
-
-p2Button.addEventListener('click',  function () {
-   addScoreToPlayer(1)
-});
-
 winningScoreSelect.addEventListener('change', function () {
-	winningScore = parseInt(this.value);
-	numberOfServes = numberOfServesMap[winningScore]
-	reset();
+    winningScore = parseInt(this.value);
+    numberOfServes = numberOfServesMap[winningScore]
+    reset();
 });
 
 resetButton.addEventListener('click', reset);
 
 function reset() {
-	isGameOver = false;
-	playersScore = [0, 0];
-	p1Display.textContent = 0;
-	p2Display.textContent = 0;
-	p1Display.classList.remove('has-text-success', 'has-text-danger');
-	p2Display.classList.remove('has-text-success', 'has-text-danger');
-	p1Button.disabled = false;
+    isGameOver = false;
+    playersScore = [0, 0];
+    p1Display.textContent = 0;
+    p2Display.textContent = 0;
+    p1Display.classList.remove('has-text-success', 'has-text-danger');
+    p2Display.classList.remove('has-text-success', 'has-text-danger');
+    p1Button.disabled = false;
     p1Button.textContent = "+1 " + playersName[0];
     p2Button.textContent = "+1 " + playersName[1];
-	servingDisplay.textContent = playersName[startingPlayer] + " is serving!";
-	servingDisplay.style.backgroundColor = playersColour[startingPlayer]
-	servingDisplay.style.color = "white"
-	p2Button.disabled = false;
-	phraseSpan.disabled = true;
-	phraseSpan.textContent = '';
+    servingDisplay.textContent = playersName[startingPlayer] + " is serving!";
+    servingDisplay.style.backgroundColor = playersColour[startingPlayer]
+    servingDisplay.style.color = "white"
+    p2Button.disabled = false;
+    phraseSpan.disabled = true;
+    phraseSpan.textContent = '';
 }
 
-reset()
+function announceState() {
+    var serving = whoServe()
+    var other = serving == 0 ? 1 : 0
+
+    var announcerSource = announcers[serving]
+    var firstScore = numberToDigitSounds(playersScore[serving])
+    var secondScore = numberToDigitSounds(playersScore[other])
+
+    const soundPromises = [];
+    firstScore.forEach(sound =>
+        soundPromises.push(new Promise((resolve, reject) => {
+            let audioData = base64ToArrayBuffer(announcerSource[sound])
+            audioContext.decodeAudioData(audioData, buffer => {
+                resolve(buffer);
+            }, error => {
+                reject(error);
+            })
+        }))
+    )
+    secondScore.forEach(sound =>
+        soundPromises.push(new Promise((resolve, reject) => {
+            let audioData = base64ToArrayBuffer(announcerSource[sound])
+            audioContext.decodeAudioData(audioData, buffer => {
+                resolve(buffer);
+            }, error => {
+                reject(error);
+            })
+        }))
+    )
+
+    Promise.all(soundPromises)
+        .then(buffers => {
+            playSoundsSequentially(buffers);
+        })
+        .catch(error => {
+            console.error('Error decoding audio data:', error);
+        });
+}
+
+function playSoundsSequentially(buffers) {
+    buffer = buffers.reduce((combined, buffer) => {
+        if (combined == null) return buffer
+
+        var numberOfChannels = combined.numberOfChannels;
+        var tmp = audioContext.createBuffer(numberOfChannels, (combined.length + buffer.length), combined.sampleRate);
+        for (var i = 0; i < numberOfChannels; i++) {
+            var channel = tmp.getChannelData(i);
+            channel.set(combined.getChannelData(i), 0);
+            channel.set(buffer.getChannelData(i), combined.length);
+        }
+        return tmp;
+    })
+
+    playSound(buffer)
+}
+
+function numberToDigitSounds(number) {
+    number = number % 100
+
+    if (number < 21) {
+        return [number]
+    }
+
+    lowDigit = number % 10
+
+    if (lowDigit == 0) {
+        return [number]
+    }
+
+    highDigit = number - lowDigit
+    return [highDigit, lowDigit]
+}
+
+function base64ToArrayBuffer(base64) {
+    var binaryString = atob(base64);
+    var bytes = new Uint8Array(binaryString.length);
+    for (var i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes.buffer;
+}
+
+function playSound(buffer) {
+    const source = audioContext.createBufferSource();
+    source.buffer = buffer;
+    source.connect(audioContext.destination);
+    source.start(0);
+}
