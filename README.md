@@ -1,4 +1,4 @@
-#Try it Now! https://alexchern0v.github.io/PingPongTracker/
+# [Try it Now!](https://alexchern0v.github.io/PingPongTracker/)
 # PingPongTracker
 
 The Ping Pong Score Tracker is a web application that allows you to keep track of scores in a ping pong game between two players. It provides a user-friendly interface to increment scores, display the current scores, and customize game settings.
