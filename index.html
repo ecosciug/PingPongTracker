@@ -12,90 +12,124 @@
 </head>
 
 <body>
-    <div class="custom-display-container">
-        <div class="card">
-            <div class="card-header">
-                <div id="scoreKeeperBox" class="score-box">
-                    <h1 class="card-title text-center" id="scoreKeeperTitle">Ping Pong Score Tracker</h1>
+<div class="custom-display-container">
+    <div class="card">
+        <div class="card-header">
+            <div id="scoreKeeperBox" class="score-box">
+                <h1 class="card-title text-center" id="scoreKeeperTitle">Ping Pong Score Tracker</h1>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="text-center">
+                <span id="servingDisplay" class="round-box">Player 1</span>
+            </div>
+            <div class="text-center custom-display">
+                <span id="p1Display">0</span><span> : </span><span id="p2Display">0</span>
+            </div>
+            <div class="row justify-content-center">
+                <div class="d-flex mb-4 justify-content-center">
+                    <button id="p1Button" class="btn btn-primary btn-lg me-4">+1 Player One</button>
+                    <button id="p2Button" class="btn btn-danger btn-lg ms-4">+1 Player Two</button>
                 </div>
             </div>
-            <div class="card-body">
-                <div class="text-center">
-                    <span id="servingDisplay" class="round-box">Player 1</span>
-                </div>
-                <div class="text-center custom-display">
-                    <span id="p1Display">0</span><span> : </span><span id="p2Display">0</span>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="d-flex mb-4 justify-content-center">
-                        <button id="p1Button" class="btn btn-primary btn-lg me-4">+1 Player One</button>
-                        <button id="p2Button" class="btn btn-danger btn-lg ms-4">+1 Player Two</button>
-                    </div>
-                </div>
 
-                <div class="row justify-content-center mb-4"> <!-- Increased mb-4 for more margin-bottom -->
-                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+            <div class="row justify-content-center mb-4">
+                <!-- Increased mb-4 for more margin-bottom -->
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseForm" aria-expanded="false" aria-controls="collapseForm">
-                        Settings
-                    </button>
-                </div>
+                    Settings
+                </button>
+            </div>
 
-                <div class="collapse" id="collapseForm">
-                    <div class="row justify-content-center mb-4">
-                        <!-- Increased mb-4 for more margin-bottom -->
-                        <label class="col-form-label col-md-auto">Playing to:</label>
-                        <div class="col-md-auto">
-                            <select class="form-select" id="playTo">
-                                <option selected value="11">11</option>
-                                <option value="21">21</option>
-                            </select>
-                        </div>
+            <div class="collapse" id="collapseForm">
+                <div class="row justify-content-center mb-4">
+                    <!-- Increased mb-4 for more margin-bottom -->
+                    <label class="col-form-label col-md-auto">Playing to:</label>
+                    <div class="col-md-auto">
+                        <select class="form-select" id="playTo">
+                            <option selected value="11">11</option>
+                            <option value="21">21</option>
+                        </select>
                     </div>
-                    <div class="row justify-content-center mb-4">
-                        <!-- Increased mb-4 for more margin-bottom -->
-                        <label class="col-form-label col-md-auto">Starting:</label>
-                        <div class="col-md-auto">
-                            <select class="form-select" id="startServing">
-                                <option selected value="0">Player 1</option>
-                                <option value="1">Player 2</option>
-                            </select>
-                        </div>
+                </div>
+                <div class="row justify-content-center mb-4">
+                    <!-- Increased mb-4 for more margin-bottom -->
+                    <label class="col-form-label col-md-auto">Starting:</label>
+                    <div class="col-md-auto">
+                        <select class="form-select" id="startServing">
+                            <option selected value="0">Player 1</option>
+                            <option value="1">Player 2</option>
+                        </select>
                     </div>
-                    <div class="row justify-content-center mb-4">
-                        <!-- Increased mb-4 for more margin-bottom -->
-                        <label class="col-form-label col-md-auto">Sound:</label>
-                        <div class="col-md-auto">
-                            <select class="form-select" id="enabledSound">
-                                <option value="0">Off</option>
-                                <option selected value="1">On</option>
-                            </select>
-                        </div>
+                </div>
+                <div class="row justify-content-center mb-4">
+                    <!-- Increased mb-4 for more margin-bottom -->
+                    <label class="col-form-label col-md-auto">Sound:</label>
+                    <div class="col-md-auto">
+                        <select class="form-select" id="enabledSound">
+                            <option value="0">Off</option>
+                            <option selected value="1">On</option>
+                        </select>
                     </div>
-                    <div class="row justify-content-center mb-4">
-                        <!-- Increased mb-4 for more margin-bottom -->
-                        <label for="player1Name" class="col-form-label col-md-auto">Player 1 name:</label>
-                        <div class="col-md-auto">
-                            <input type="text" class="form-control" id="player1Name" value="Player 1">
-                        </div>
+                </div>
+                <div class="row justify-content-center mb-4">
+                    <!-- Increased mb-4 for more margin-bottom -->
+                    <label for="player1Name" class="col-form-label col-md-auto">Player 1 name:</label>
+                    <div class="col-md-auto">
+                        <input type="text" class="form-control" id="player1Name" value="Player 1">
                     </div>
-                    <div class="row justify-content-center mb-4">
-                        <!-- Increased mb-4 for more margin-bottom -->
-                        <label for="player2Name" class="col-form-label col-md-auto">Player 2 name:</label>
-                        <div class="col-md-auto">
-                            <input type="text" class="form-control" id="player2Name" value="Player 2">
-                        </div>
+                </div>
+                <div class="row justify-content-center mb-4">
+                    <!-- Increased mb-4 for more margin-bottom -->
+                    <label for="player2Name" class="col-form-label col-md-auto">Player 2 name:</label>
+                    <div class="col-md-auto">
+                        <input type="text" class="form-control" id="player2Name" value="Player 2">
                     </div>
-                    <div class="row justify-content-center mb-4">
-                        <div class="col-md-auto">
-                            <button id="reset" class="btn btn-secondary btn-lg">Reset</button>
-                        </div>
+                </div>
+                <div class="row justify-content-center mb-4">
+                    <div class="col-md-auto">
+                        <button id="reset" class="btn btn-secondary btn-lg">Reset</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <script src="app.js"></script>
+<!-- Add the following code for the info button -->
+<div class="info-button-container">
+    <button class="btn btn-info info-button" type="button" data-bs-toggle="modal" data-bs-target="#infoModal">
+        <i class="bi bi-info-circle-fill"></i> Info
+    </button>
+</div>
+
+<!-- Add the following code for the modal containing the rules -->
+<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="infoModalLabel">How to Play</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Welcome to the Ping Pong Score Keeper!</p>
+                <p>Here's how to play:</p>
+                <ul>
+                    <li>Click "+1" or left and right arrows to increase a player's score.</li>
+                    <li>Use the dropdowns to set the maximum score and determine the serving player.</li>
+                    <li>Toggle the sound effects on/off using the "Sound" dropdown.</li>
+                    <li>Modify the player names in the input fields.</li>
+                    <li>Click "Reset" to clear scores and settings.</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="app.js"></script>
 </body>
 
 </html>
@@ -116,5 +150,15 @@
         border-radius: 2vw;
         font-size: calc(3rem + 3vw);
         width: 100%;
+    }
+
+    .info-button-container {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    .info-button {
+        font-size: 1rem;
     }
 </style>
