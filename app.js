@@ -148,7 +148,7 @@ function render() {
 }
 
 view.startServingSelect.addEventListener('change', function () {
-    startingPlayer = parseInt(this.value);
+    state.startingPlayer = parseInt(this.value);
     reset();
 });
 
@@ -157,13 +157,13 @@ controls.player2NameInput.addEventListener('change', updateNames);
 
 controls.winningScoreSelect.addEventListener('change', function () {
     state.winningScore = parseInt(this.value);
-    state.numberOfServes = numberOfServesMap[winningScore]
+    state.numberOfServes = numberOfServesMap[state.winningScore]
     reset();
 });
 
 controls.enabledSoundSelect.addEventListener('change', function () {
     isEnabled = !!parseInt(this.value);
-    numberOfServes = numberOfServesMap[winningScore]
+    state.isSoundEnabled = isEnabled
     reset();
 });
 
