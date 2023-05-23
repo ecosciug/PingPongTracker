@@ -164,7 +164,6 @@ controls.winningScoreSelect.addEventListener('change', function () {
 controls.enabledSoundSelect.addEventListener('change', function () {
     isEnabled = !!parseInt(this.value);
     state.isSoundEnabled = isEnabled
-    reset();
 });
 
 controls.resetButton.addEventListener('click', reset);
