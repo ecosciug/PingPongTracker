@@ -7,8 +7,8 @@ The Ping Pong Score Tracker is a web application that allows you to keep track o
 ## How To Use
 
 1. Bring your own device
-   - PC/Mac/Mobile for display
-   - Keyboard/Mouse/Touchscreen/Detachable Custom Buttons(coming soon) for buttons
+   - display: PC/Mac/Mobile 
+   - controls: Keyboard/Mouse/Touchscreen/Wireless Presenter/Detachable Custom Buttons(coming soon)
 2.  Open the Ping Pong Score Keeper application in your web browser
 3. Use the buttons below to keep score:
     - Click the "+1 Player 1" button or left arrow to increase Player 1's score by 1
