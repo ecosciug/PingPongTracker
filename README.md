@@ -1,4 +1,4 @@
-# Ping Pong Tracker
+# Ping Pong Score Tracker
 
 [Try it Now!](https://alexchern0v.github.io/PingPongTracker/)
 
